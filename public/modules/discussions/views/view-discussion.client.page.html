@@ -1,0 +1,7 @@
+<div class="breadcrumb" ng-if="attachType=='games'">
+    <md-button aria-label="Workshop" ui-sref="home">Workshop</md-button> > <md-button aria-label="List Games" ui-sref="listGames">List Games</md-button> > <md-button aria-label="{{context.name}}" ng-href="/#!/games/{{context._id}}">{{context.name}}</md-button> > <md-button aria-label="{{discussion.name}}">{{discussion.name}}</md-button>
+</div> 
+<md-content class="md-padding" data-ng-init="findOne()">
+    
+    <ng-include src="'/modules/discussions/views/discussion-view.html'"></ng-include>
+</md-contentt>

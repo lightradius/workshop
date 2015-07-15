@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>The Games Workshop by dSolver</title>
+
+	<!-- General META -->
+	<meta charset="utf-8">
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Semantic META -->
+	<meta name="keywords" content="{{keywords}}">
+	<meta name="description" content="{{description}}">
+
+	<!-- Facebook META -->
+	<meta property="fb:app_id" content="{{facebookAppId}}">
+	<meta property="og:site_name" content="{{title}}">
+	<meta property="og:title" content="{{title}}">
+	<meta property="og:description" content="{{description}}">
+	<meta property="og:url" content="{{url}}">
+	<meta property="og:image" content="/img/brand/logo.png">
+	<meta property="og:type" content="website">
+
+	<!-- Twitter META -->
+	<meta name="twitter:title" content="{{title}}">
+	<meta name="twitter:description" content="{{description}}">
+	<meta name="twitter:url" content="{{url}}">
+	<meta name="twitter:image" content="/img/brand/logo.png">
+
+	<!-- Fav Icon -->
+	<link href="/modules/core/img/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+	<!--Application CSS Files-->
+	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+
+	<!-- HTML5 Shim -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+
+<body class="ng-cloak">
+	<div ng-controller="HeaderController">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+		        <img src="/workshop_logo.svg" style="height: 50px">
+				<h2 ui-sref="home" class="clickable">The Workshop</h2>
+				<span flex></span>
+				<span>
+					<md-menu>
+						<md-button aria-label="User menu" ng-click="$mdOpenMenu()">
+							<span hide-sm style="margin-right:8px">{% raw %}{{authentication.user.username || 'Guest'}}{% endraw %}</span>
+							<md-icon class="fa" style="font-size:24px" md-font-icon="fa-ellipsis-v"></md-icon>
+						</md-button>
+						<md-menu-content width="4">
+							<md-menu-item>
+								<p>Hello, {% raw %}{{authentication.user.username || 'Guest'}}{% endraw %}</p>
+							</md-menu-item>
+							<md-menu-item data-ng-if="authentication.user" ng-show="authentication.user.provider=='local'">
+								<md-button aria-label="Edit Profile" ui-sref='profile'><md-icon md-font-icon="fa-user" class="fa"></md-icon> Edit Profile</md-button>
+							</md-menu-item>
+							<md-menu-item data-ng-if="authentication.user" ng-show="authentication.user.provider=='local'">
+								<md-button aria-label="Change Password" ng-click="goto('password')">Change Password</md-button>
+							</md-menu-item>
+							<md-menu-item data-ng-if="!authentication.user">
+								<md-button aria-label="Sign In" ng-click="goto('signin')">Sign In</md-button>
+							</md-menu-item>
+							<md-menu-item data-ng-if="!authentication.user">
+								<md-button aria-label="Sign Up" ng-click="goto('signup')">Sign Up</md-button>
+							</md-menu-item>
+							<md-menu-divider></md-menu-divider>
+							<md-menu-item data-ng-if="authentication.user">
+								<md-button aria-label="Sign out" ng-click="goto('/auth/signout', true)">Sign Out</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</span>
+			</div>
+		</md-toolbar>
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+	      <md-toolbar class="md-theme-indigo">
+	        <h1 class="md-toolbar-tools">Menu</h1>
+	      </md-toolbar>
+	      <md-content layout-padding>
+	        Menu stuff
+	      </md-content>
+	    </md-sidenav>
+
+		<md-content>
+			{% block content %}{% endblock %}
+			<!-- workshop-dev -->
+			<md-content style="overflow: hidden; text-align: center; border-top:solid 1px #aaa" ng-if="!authentication.user">
+				<label>Advertisement</label>
+				<ins class="adsbygoogle"
+			     style="display:block"
+			     data-ad-client="ca-pub-3539504993894756"
+			     data-ad-slot="3418347022"
+			     data-ad-format="auto"></ins>
+			</md-content>
+		</md-content>
+
+		<footer>
+			<p>
+				This site uses Markdown for user posts, for full reference, here's the <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Cheatsheet" target="_blank">Cheat Sheet</a>
+			</p>
+			<p>
+			Confused? Not sure what to do? No worries - head on over to <a href="https://www.reddit.com/r/dWorkshop" target="_blank">/r/dWorkshop</a> and ask for help.
+			<br><br>
+			</p>
+		</footer>
+		<footer>
+			dSolver's Workshop &copy; 2015 dSolver.<br>
+			<a ui-sref="privacy">Privacy Policy</a> | <a ui-sref="terms">Terms and Conditions</a> | <a href="https://www.reddit.com/r/dWorkshop" target="_blank">/r/dWorkshop</a>
+		</footer>
+	</div>
+
+	<!--Embedding The User Object-->
+	<script type="text/javascript">
+		var user = {{ user | json | safe }};
+	</script>
+
+	<!--Application JavaScript Files-->
+	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-12428009-10', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+	
+</body>
+
+</html>

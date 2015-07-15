@@ -1,0 +1,49 @@
+<md-dialog>
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <h3>New Review</h3>
+            <span flex></span>
+            <md-button ng-click="closeDialog()" class="md-icon-button" aria-label="Close">
+                <md-icon class="fa fa-lg" md-font-icon="fa-times"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-content>
+            <p>
+                Please keep in mind the following:
+                <ol>
+                    <li>Criticize the <em>Game</em>, not the developer</li>
+                    <li>All reviews are moderated</li>
+                    <li>Name and content are not required, you may simply rate this game and submit</li>
+                    <li><strong>Reviews with no content</strong> are not displayed to others, but will contribute to the score</li>
+                    <li>Scores are updated periodically, your review's effects may not show up right away</li>
+                </ol>
+            </p>
+            <md-divider></md-divider>
+            <div layout="row" layout-align="center center" class="md-padding text-primary">
+                <span ng-repeat="n in [1, 2, 3, 4, 5]">
+                    <span class="fa fa-lg" ng-class="{'fa-star':review.score>=n,'fa-star-half-o':review.score>=n && review.score<n-1,'fa-star-o':review.score<n}">
+                    </span>
+                </span>
+            </div>
+            <md-divider></md-divider>
+            <md-input-container>
+                <label>Title</label>
+                <input type="text" data-ng-model="review.name" placeholder="Review Name">
+            </md-input-container>
+            <div class="textarea">
+                <label>Content</label>
+                <textarea ng-model="review.content"></textarea>
+            </div>
+        </md-content>
+    </md-dialog-content>
+    <div class="md-actions" layout="row" layout-align="bottom right">
+
+        <md-button ng-click="closeDialog()" class="md-primary" aria-label="Cancel">Cancel</md-button>
+        <md-button ng-click="createReview()" class="md-primary" aria-label="Submit">Submit</md-button>
+        <div data-ng-show="error" class="text-danger">
+            <strong data-ng-bind="error"></strong>
+        </div>
+    </div>
+</md-dialog>

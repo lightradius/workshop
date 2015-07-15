@@ -1,0 +1,44 @@
+<md-content layout-gt-md="row" layout-align-gt-md="space-around start" layout-padding ng-controller="HomeController" ng-init="getRecentActivity()">
+	<div flex-gt-md="70">
+		<h3>Featured Games</h3>
+		<md-grid-list
+		        md-cols-sm="1" md-cols-md="2" md-cols-lg="3" md-cols-gt-lg="3"
+		        md-row-height="5:3" 
+		        md-gutter="8px" md-gutter-gt-sm="4px" >
+			<md-grid-tile ng-repeat="tile in featuredGames | limitTo:8"
+			              md-colspan-sm="1"
+			              ui-sref="viewGame({gameId:tile._id})"
+			              ng-style="{'background-image':tile.logo ? 'url(/uploads/'+tile.logo+')':'none'}"
+			              class="clickable gameTile"
+			              >
+			    <div ng-if="!tile.logo" style="width:75%; text-align: center;"><h3>{{tile.name}}</h3></div>
+			  	<md-grid-tile-footer>
+			  		<div flex layout="row" layout="space-between">
+			  			 <span class="nowrap" ng-if="tile.logo" style="width: calc(100% - 77px); overflow: hidden; display: block; text-overflow: ellipsis;" title="{{tile.name}}">{{tile.name}}</span> <span flex></span>
+			  		<span class="nowrap"><span style="margin-right: 5px"><span class="fa fa-eye"></span> {{tile.viewed}}</span> <span class="fa fa-heart"></span> {{tile.liked}}</span>
+			  		</div>
+				</md-grid-tile-footer>
+			</md-grid-tile>
+		</md-grid-list>
+		<md-button aria-label="List Games" ui-sref='listGames' class="md-primary">See full list of games</md-button>
+	</div>
+	<div flex-gt-md="30">
+		<div>
+			<h3>Recent Activity</h3>
+			<div ng-repeat="activity in recentActivity" class="recentActivity">
+				<div ng-if="activity.action=='create'">
+					<div class="heading">New {{activity.itemType}}: <a ng-href="/#!/{{activity.itemType}}s/{{activity.itemId}}">{{activity.itemName}}</a></div>
+					<div><small>{{activity.user.username}} <span am-time-ago="activity.created" title="{{activity.created}}"></span></small></div>
+				</div>
+				<div ng-if="activity.action=='update'">
+					<div class="heading"><a ng-href="/#!/{{activity.itemType}}s/{{activity.itemId}}">{{activity.itemName}}</a> was updated</div>
+					<div><small>{{activity.user.username}} <span am-time-ago="activity.created" title="{{activity.created}}"></span></small></div>
+				</div>
+				<div ng-if="activity.action=='delete'">
+					<div class="heading"><a ng-href="/#!/{{activity.itemType}}s/{{activity.itemId}}">{{activity.itemName}}</a> was deleted</div>
+					<div><small>{{activity.user.username}} <span am-time-ago="activity.created" title="{{activity.created}}"></span></small></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</md-content>

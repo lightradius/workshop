@@ -1,0 +1,80 @@
+<md-content data-ng-controller="GamesController" data-ng-init="find()">
+    <div class="breadcrumb">
+        <md-button ui-sref="home" aria-label="Workshop">Workshop</md-button> > <md-button aria-label="List Games">List Games</md-button>
+    </div>
+    <md-content layout-padding>
+      <div class="page-header" layout="row" layout-padding layout-align="start center">
+          <h2>{{games.length}} Games</h2>
+          <span flex></span>
+          <div ng-click="openCreator()" ng-if="canCreateGame">
+            <md-button aria-label="Add Game" class="md-primary md-raised">Add Game</md-button>
+          </div>
+      </div>
+      <md-content layout-gt-sm="row">
+        <md-content flex-gt-sm="30"  hide-sm class="md-padding">
+          <md-content>
+            <md-list>
+              <md-input-container class="md-icon-float">
+                <label>Search</label>
+                <md-icon md-font-icon="fa-search" class="fa fa-lg"></md-icon>
+                <input type="text" ng-model="search.keyword">
+              </md-input-container>
+              <md-content class="md-padding" ng-show="authentication.user && authentication.user.reviewed">
+                <h4>Review state</h4>
+                <md-checkbox ng-model="search.reviewed">List games I've reviewed</md-checkbox>
+                <md-checkbox ng-model="search.notreviewed">List games I haven't reviewed</md-checkbox>
+              </md-content>
+              <md-content ng-repeat="(cat, group) in search.tags" ng-hide="search.hideTags" class="md-padding">
+                <div layout="row" ng-click="group.hidden=!group.hidden" class="clickable">
+                  <h4>{{cat}}</h4>
+                  <span flex></span>
+                  <md-icon md-font-icon="fa-chevron-right" class="fa fa-lg" ng-show="group.hidden" style="margin-right: 2em"></md-icon>
+                  <md-icon md-font-icon="fa-chevron-down" class="fa fa-lg" ng-hide="group.hidden"  style="margin-right: 2em"></md-icon>
+                </div>
+                <md-list-item ng-repeat="tag in group.tags track by $index" ng-hide="group.hidden">
+                  <md-checkbox ng-model="tag.contain" class="md-primary"></md-checkbox>
+                  <p><span class="tag {{tag.tag}}" ng-bind="tag.tag"></span></p>
+                </md-list-item>
+              </md-content>
+            </md-list>
+          </md-content>
+        </md-content>
+        <md-content flex-gt-sm="70">
+          <div layout="column">
+            <div ng-show="loadingGames && !games.length">
+              Loading Games
+              <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+            </div>
+            <div ng-show="!loadingGames && games.length > 0" layout="row" layout-align="end center">
+              <div>
+                <md-icon md-font-icon="fa-sort-amount-desc" class="fa fa-lg"></md-icon>
+              </div>
+              <md-select ng-model="search.sortBy">
+                <md-option ng-repeat="sortOpt in search.sortOptions" value="{{sortOpt.sort}}">{{sortOpt.name}}</md-option>
+              </md-select>
+            </div>
+            <a layout="row" ng-hide="loadingGames" ng-repeat="game in gamesDisplayed | limitTo: search.maxDisplay" ui-sref="viewGame({gameId:game._id})" class="clickable gamelist-item">
+              <div class="thumbnail" ng-style="{'background-image':game.logo ? 'url(/uploads/'+game.logo+'?thumb=192x192)':'url(/uploads/default.png)'}">
+              </div>
+              <div flex style="padding:0 0.25em">
+                <div><strong>{{game.name}}</strong></div>
+
+                <div><span style="margin-right:5px"><span class="fa fa-eye"></span> {{game.viewed}}</span> <span class="fa fa-heart"></span> {{game.liked}} <span ng-if="game.rating"><span class="fa fa-star"></span> {{game.rating | number:1}}</span></div>
+                <div>
+                  <span class="tag {{tag}}" ng-repeat="tag in game.tags">{{tag}}</span>
+                  <span ng-hide="game.tags">No Tags</span>
+                </div>
+                <div class="short-description" hide-sm ng-bind="game.shortDescription">
+
+                </div>
+              </div>
+            </a>
+            <md-button ng-show="search.maxDisplay < gamesDisplayed.length" ng-click="displayMoreResults()">Show More</md-button>
+          </div>
+          <div data-ng-hide="!games.$resolved || games.length">
+          	No Games Yet
+          </div>
+        </md-content>
+      </md-content>
+    </md-content>
+</md-content>
