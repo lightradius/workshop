@@ -6,9 +6,9 @@ module.exports = {
         description: 'Incremental and other web games workshop. Share your ideas, review games, discuss, and explore, all community driven.',
         keywords: 'Incremental, Idle, Web, Game, Workshop, dSolver, Open Source, Review, Rating, Discussion, Comment, Screenshots'
     },
-    port: process.env.PORT || 3456,
+    port: process.env.WORKSHOP_PORT || 3456,
     templateEngine: 'swig',
-    sessionSecret: 'MEAN',
+    sessionSecret: process.env.WORKSHOP_SESSION_SECRET || 'MEAN',
     sessionCollection: 'sessions',
     assets: {
         lib: {
