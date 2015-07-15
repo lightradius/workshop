@@ -41,7 +41,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 
         $sceDelegateProvider.resourceUrlWhitelist([
             'https://www.youtube.com/**',
-            'https://www.youtu.be/**'
+            'https://www.youtu.be/**',
+            'http://localhost:3456/**',
+            'http://workshop.ga/**'
         ]);
     }
 ]);
